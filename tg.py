@@ -5,7 +5,7 @@ from pprint import pprint
 import config
 import telepot
 from sql_connection import register
-from sql_connection import raccogli
+from sql_connection import on_button_press
 from sql_connection import stats
 from sql_connection import avs
 from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup
@@ -36,7 +36,7 @@ def on_chat_message(msg):
     
     if command == '/raccogli':
         register(bot, chat_id, user_id, username)
-        raccogli(bot, chat_id, user_id)
+        on_button_press(bot, chat_id, user_id,)
     
     if command == '/stats':
         register(bot, chat_id, user_id, username)

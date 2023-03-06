@@ -47,6 +47,32 @@ def register(bot, chat_id, user_id, username):
 
 
 
+
+time_threshold = datetime.timedelta(minutes=15)
+
+# variabile per tenere traccia dell'ultimo momento in cui il tasto è stato premuto
+last_pressed_time = None
+
+def on_button_press(bot, chat_id, user_id):
+    global last_pressed_time
+
+    # ottenere il tempo corrente
+    current_time = datetime.datetime.now()
+
+    # controllare se il tasto può essere premuto o meno
+    if last_pressed_time is None or current_time - last_pressed_time >= time_threshold:
+        # il tasto può essere premuto
+        last_pressed_time = current_time
+        raccogli(bot, chat_id, user_id)
+    else:
+        # non sono ancora passati 15 minuti dall'ultima volta che il tasto è stato premuto
+        remaining_time = last_pressed_time + time_threshold - current_time
+        bot.sendMessage(chat_id, "Puoi raccogliere tra " + str(remaining_time.seconds // 60) + " minuti")
+
+
+
+
+
 def raccogli(bot, chat_id, user_id):
 
     sql = 'SELECT balls FROM players WHERE user_id = %s'
@@ -66,6 +92,8 @@ def raccogli(bot, chat_id, user_id):
 
 
 
+
+
 def stats(bot, chat_id, user_id):
 
     sql = 'SELECT * FROM players WHERE user_id = %s'
@@ -79,7 +107,6 @@ def stats(bot, chat_id, user_id):
       bot.sendMessage(chat_id, "\nusername: " + myresult[4] + "\npunti vita: " + str(myresult[5]) + "\npalle di neve: " + str(myresult[6]))
 
 
-  
 
       
 
