@@ -51,46 +51,6 @@ def on_chat_message(msg):
             bot.sendMessage(chat_id, "a chi vuoi tirare la palla di neve?")
 
 
-
-            
-    '''
-    if command == '/numeri' and game == True:
-        r = random.randint(1, 100)
-        print(r)
-        indovinato = False                
-        t = 3
-        bot.sendMessage(chat_id, "indovina il numero, hai %s tentativi " % (t))
-        bot.sendMessage(chat_id, "che numero scegli? ")
-
-        n = command
-        print(n)
-        while t > 0 and indovinato == False:
-
-            if command == n:
-                if n.isnumeric() == True:
-                    n = int(n)
-                    t -= 1
-                    if n == r:
-                        indovinato = True
-                    elif n < r and t > 0:
-                        bot.sendMessage(chat_id, "hai sbagliato, il numero che cerchi è più grande")
-                    elif n > r and t > 0:
-                        bot.sendMessage(chat_id, "hai sbagliato, il numero che cerchi è più piccolo")
-                else:
-                    bot.sendMessage(chat_id, "%s" % command)
-
-        if indovinato == True:
-            bot.sendMessage(chat_id, "hai vinto! Il numero era %s" % (r))
-            game = False
-
-        else:
-            bot.sendMessage(chat_id, "hai perso, il numero era %s" % (r))
-            game = False
-    #    numeri(msg)
-       '''
-    
-
-
 bot = telepot.Bot(config.TOKEN)
 bot.message_loop({'chat': on_chat_message})
 

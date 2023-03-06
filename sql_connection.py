@@ -1,16 +1,7 @@
 import mysql.connector
-from mysql.connector import Error
 import pymysql
 import config
 import datetime
-
-connessione = mysql.connector.connect(
-# Parametri per la connessione
-  host="localhost",
-  user="root",
-  password="",
-  db="tg_db"
-)
 
 SQL_HOST = config.SQL_HOST
 SQL_PORT = config.SQL_PORT
@@ -19,8 +10,15 @@ SQL_PASSWORD = config.SQL_PASSWORD
 SQL_DATABASE = config.SQL_DATABASE
 
 
+connessione = mysql.connector.connect(
+# Parametri per la connessione
+  host=SQL_HOST,
+  user=SQL_USER,
+  password=SQL_PASSWORD,
+  db=SQL_DATABASE
+)
+
 # Stampa dell'handle di connessione
-#print(connessione)
 
 # Generazione del cursore
 cursor = connessione.cursor()
