@@ -1,13 +1,12 @@
 import datetime
 import random
-import sys
 import time
 from pprint import pprint
 import config
 import telepot
 from sql_connection import register
 from sql_connection import raccogli
-from sql_connection import info
+from sql_connection import stats
 from sql_connection import avs
 from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -39,9 +38,9 @@ def on_chat_message(msg):
         register(bot, chat_id, user_id, username)
         raccogli(bot, chat_id, user_id)
     
-    if command == '/info':
+    if command == '/stats':
         register(bot, chat_id, user_id, username)
-        info(bot, chat_id, user_id)
+        stats(bot, chat_id, user_id)
 
     if command == '/tira':
         register(bot, chat_id, user_id, username)

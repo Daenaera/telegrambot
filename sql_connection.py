@@ -28,14 +28,12 @@ cursor = connessione.cursor()
 #cursore.execute("SHOW DATABASES")
 cursor.execute("SHOW COLUMNS FROM players FROM tg_db")
 # Visualizzazione dei database
-# for i in cursor:
-  #print(i)
 
+db = pymysql.connect(host=SQL_HOST, port=SQL_PORT, user=SQL_USER, passwd=SQL_PASSWORD, db=SQL_DATABASE)
+cursor = db.cursor()
 
 def register(bot, chat_id, user_id, username):
-    db = pymysql.connect(host=SQL_HOST, port=SQL_PORT, user=SQL_USER, passwd=SQL_PASSWORD, db=SQL_DATABASE)
-    cursor = db.cursor()
-
+    
     sql = 'SELECT * FROM players WHERE user_id = %s'
     
     cursor.execute(sql, [user_id])
@@ -52,9 +50,7 @@ def register(bot, chat_id, user_id, username):
 
 
 def raccogli(bot, chat_id, user_id):
-    db = pymysql.connect(host=SQL_HOST, port=SQL_PORT, user=SQL_USER, passwd=SQL_PASSWORD, db=SQL_DATABASE)
-    cursor = db.cursor()
-    #print("stronzo")
+
     sql = 'SELECT balls FROM players WHERE user_id = %s'
     
     cursor.execute(sql, [user_id])
@@ -72,9 +68,8 @@ def raccogli(bot, chat_id, user_id):
 
 
 
-def info(bot, chat_id, user_id):
-    db = pymysql.connect(host=SQL_HOST, port=SQL_PORT, user=SQL_USER, passwd=SQL_PASSWORD, db=SQL_DATABASE)
-    cursor = db.cursor()
+def stats(bot, chat_id, user_id):
+
     sql = 'SELECT * FROM players WHERE user_id = %s'
     
     cursor.execute(sql, [user_id])
@@ -91,8 +86,7 @@ def info(bot, chat_id, user_id):
       
 
 def pg(bot, chat_id, user_id, avversario, username):
-   db = pymysql.connect(host=SQL_HOST, port=SQL_PORT, user=SQL_USER, passwd=SQL_PASSWORD, db=SQL_DATABASE)
-   cursor = db.cursor()
+
    pv = 'SELECT HP FROM players WHERE user_id = %s'
    cursor.execute(pv, [user_id])
    myresult = cursor.fetchone()
@@ -116,9 +110,7 @@ def pg(bot, chat_id, user_id, avversario, username):
 
       
 def avs(bot, chat_id, user_id, avversario, username):
-   db = pymysql.connect(host=SQL_HOST, port=SQL_PORT, user=SQL_USER, passwd=SQL_PASSWORD, db=SQL_DATABASE)
-   cursor = db.cursor()
-    
+
    avv = 'SELECT * FROM players WHERE username = %s'
    cursor.execute(avv, [avversario])
    myresult = cursor.fetchone()
@@ -140,8 +132,7 @@ def avs(bot, chat_id, user_id, avversario, username):
 
 
 def tira(bot, chat_id, user_id, avversario):
-   db = pymysql.connect(host=SQL_HOST, port=SQL_PORT, user=SQL_USER, passwd=SQL_PASSWORD, db=SQL_DATABASE)
-   cursor = db.cursor()
+
    ball = 'SELECT balls FROM players WHERE user_id = %s'
    cursor.execute(ball, [user_id])
    myresult = cursor.fetchone()
@@ -155,8 +146,7 @@ def tira(bot, chat_id, user_id, avversario):
 
 
 def ricevi(bot, avversario, username):
-   db = pymysql.connect(host=SQL_HOST, port=SQL_PORT, user=SQL_USER, passwd=SQL_PASSWORD, db=SQL_DATABASE)
-   cursor = db.cursor()
+
    pv = 'SELECT HP FROM players WHERE username = %s'
    cursor.execute(pv, [avversario])
    myresult = cursor.fetchone()
