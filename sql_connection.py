@@ -38,7 +38,7 @@ def register(bot, chat_id, user_id, username):
     myresult = cursor.fetchall()
 
     if len(myresult) == 1:
-       pass
+       return True
     else:
        sql = 'INSERT INTO players(registration_date, user_id, chat_id, username) VALUES(%s, %s, %s, %s)'
        cursor.execute(sql, [datetime.datetime.today(), user_id, chat_id, username])
