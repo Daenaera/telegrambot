@@ -2,6 +2,7 @@ import mysql.connector
 import pymysql
 import config
 import datetime
+import random
 
 SQL_HOST = config.SQL_HOST
 SQL_PORT = config.SQL_PORT
@@ -60,52 +61,91 @@ def on_button_press(bot, chat_id, user_id):
     current_time = datetime.datetime.now()
 
     # controllare se il tasto può essere premuto o meno
-    if last_pressed_time is None or current_time - last_pressed_time >= time_threshold:
+   # if last_pressed_time is None or current_time - last_pressed_time >= time_threshold:
         # il tasto può essere premuto
-        last_pressed_time = current_time
-        raccogli(bot, chat_id, user_id)
-    else:
+    #    last_pressed_time = current_time
+    random(bot, chat_id, user_id)
+    #else:
         # non sono ancora passati 15 minuti dall'ultima volta che il tasto è stato premuto
-        remaining_time = last_pressed_time + time_threshold - current_time
-        bot.sendMessage(chat_id, "Puoi raccogliere tra " + str(remaining_time.seconds // 60) + " minuti")
+     #   remaining_time = last_pressed_time + time_threshold - current_time
+     #   bot.sendMessage(chat_id, "Puoi raccogliere tra " + str(remaining_time.seconds // 60) + " minuti")
+
+
+def random(bot, chat_id, user_id):
+   import random
+   prob = random.randint(1, 7)
+   if prob == 5:
+      pozioni(bot, chat_id, user_id)
+   else:
+      palla(bot, chat_id, user_id)
 
 
 
-
-
-def raccogli(bot, chat_id, user_id):
-
-    sql = 'SELECT balls FROM players WHERE user_id = %s'
+def pozioni(bot, chat_id, user_id):
+   
+   sql = 'SELECT pozioni FROM players WHERE user_id = %s'
     
-    cursor.execute(sql, [user_id])
-    myresult = cursor.fetchone()
+   cursor.execute(sql, [user_id])
+   myresult = cursor.fetchone()
 
-    if len(myresult) == 1:
-       balls = myresult[0]
-       balls += 1
-       sql = 'UPDATE players SET balls = %s WHERE user_id = %s'
-       cursor.execute(sql, [balls, user_id])
-       db.commit()
-       bot.sendMessage(chat_id, "Hai raccolto una palla di neve!")
-    else:
-       bot.sendMessage(chat_id, "Clicca /start per iscriverti")
+   pozioni = myresult[0]
+   pozioni += 1
+   sql = 'UPDATE players SET pozioni = %s WHERE user_id = %s'
+   cursor.execute(sql, [pozioni, user_id])
+   db.commit()
+   bot.sendMessage(chat_id, "Hai trovato una pozione!")
 
 
+
+
+def palla(bot, chat_id, user_id):
+
+   sql = 'SELECT balls FROM players WHERE user_id = %s'
+    
+   cursor.execute(sql, [user_id])
+   myresult = cursor.fetchone()
+
+   balls = myresult[0]
+   balls += 1
+   sql = 'UPDATE players SET balls = %s WHERE user_id = %s'
+   cursor.execute(sql, [balls, user_id])
+   db.commit()
+   bot.sendMessage(chat_id, "Hai raccolto una palla di neve!")
+
+
+def usa(bot, chat_id, user_id):
+   sql = 'SELECT pozioni FROM players WHERE user_id = %s'
+    
+   cursor.execute(sql, [user_id])
+   myresult = cursor.fetchone()
+
+   pozioni = myresult[0]
+   pozioni -= 1
+   sql = 'UPDATE players SET pozioni = %s WHERE user_id = %s'
+
+   cursor.execute(sql, [pozioni, user_id])
+
+   punti = 'SELECT HP FROM players WHERE user_id = %s'
+   cursor.execute(punti, [user_id])
+   myresult = cursor.fetchone()
+
+   HP = myresult[0]
+   HP += 50
+   punti = 'UPDATE players SET HP = %s WHERE user_id = %s'
+
+   cursor.execute(punti, [HP, user_id])
+   db.commit()
+   bot.sendMessage(chat_id, "Hai recuperato 50 punti vita")
 
 
 
 def stats(bot, chat_id, user_id):
 
-    sql = 'SELECT * FROM players WHERE user_id = %s'
+   sql = 'SELECT * FROM players WHERE user_id = %s'
     
-    cursor.execute(sql, [user_id])
-    myresult = cursor.fetchone()
-
-    if len(myresult) == 0:
-       bot.sendMessage(chat_id, "Clicca /start per iscriverti")
-    else:
-      bot.sendMessage(chat_id, "\nusername: " + myresult[4] + "\npunti vita: " + str(myresult[5]) + "\npalle di neve: " + str(myresult[6]))
-
+   cursor.execute(sql, [user_id])
+   myresult = cursor.fetchone()
+   bot.sendMessage(chat_id, "\nusername: " + myresult[4] + "\npunti vita: " + str(myresult[5]) + "\npalle di neve: " + str(myresult[6]) + "\npozioni: " + str(myresult[7]))
 
 
       

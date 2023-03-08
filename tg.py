@@ -8,6 +8,7 @@ from sql_connection import register
 from sql_connection import on_button_press
 from sql_connection import stats
 from sql_connection import avs
+from sql_connection import usa
 from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup
 
 
@@ -49,6 +50,10 @@ def on_chat_message(msg):
             avs(bot, chat_id, user_id, avversario, username)
         else:
             bot.sendMessage(chat_id, "a chi vuoi tirare la palla di neve?")
+    
+    if command == '/usa':
+        register(bot, chat_id, user_id, username)
+        usa(bot, chat_id, user_id)
 
 
 bot = telepot.Bot(config.TOKEN)
