@@ -120,22 +120,27 @@ def usa(bot, chat_id, user_id):
    myresult = cursor.fetchone()
 
    pozioni = myresult[0]
-   pozioni -= 1
-   sql = 'UPDATE players SET pozioni = %s WHERE user_id = %s'
+   if pozioni > 0:
+      pozioni -= 1
+      sql = 'UPDATE players SET pozioni = %s WHERE user_id = %s'
 
-   cursor.execute(sql, [pozioni, user_id])
+      cursor.execute(sql, [pozioni, user_id])
 
-   punti = 'SELECT HP FROM players WHERE user_id = %s'
-   cursor.execute(punti, [user_id])
-   myresult = cursor.fetchone()
+      punti = 'SELECT HP FROM players WHERE user_id = %s'
+      cursor.execute(punti, [user_id])
+      myresult = cursor.fetchone()
 
-   HP = myresult[0]
-   HP += 50
-   punti = 'UPDATE players SET HP = %s WHERE user_id = %s'
+      HP = myresult[0]
+      HP += 50
+      punti = 'UPDATE players SET HP = %s WHERE user_id = %s'
 
-   cursor.execute(punti, [HP, user_id])
-   db.commit()
-   bot.sendMessage(chat_id, "Hai recuperato 50 punti vita")
+      cursor.execute(punti, [HP, user_id])
+      db.commit()
+      bot.sendMessage(chat_id, "Hai recuperato 50 punti vita")
+   
+   else:
+         bot.sendMessage(chat_id, "Non hai pozioni da usare")
+   
 
 
 
