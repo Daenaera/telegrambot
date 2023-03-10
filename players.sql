@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 08, 2023 alle 14:48
+-- Creato il: Mar 10, 2023 alle 11:52
 -- Versione del server: 10.4.27-MariaDB
 -- Versione PHP: 8.0.25
 
@@ -39,14 +39,6 @@ CREATE TABLE `players` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dump dei dati per la tabella `players`
---
-
-INSERT INTO `players` (`id`, `registration_date`, `chat_id`, `user_id`, `username`, `HP`, `balls`, `pozioni`) VALUES
-(26, '2023-03-05 00:02:54', 89535594, 89535594, 'Norelec', 40, 2, 0),
-(27, '2023-03-06 20:18:25', 153955525, 153955525, 'Daenaera', 150, 33, 0);
-
---
 -- Indici per le tabelle scaricate
 --
 
@@ -64,7 +56,7 @@ ALTER TABLE `players`
 -- AUTO_INCREMENT per la tabella `players`
 --
 ALTER TABLE `players`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

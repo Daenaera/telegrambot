@@ -41,8 +41,8 @@ def register(bot, chat_id, user_id, username):
     if len(myresult) == 1:
        return True
     else:
-       sql = 'INSERT INTO players(registration_date, user_id, chat_id, username) VALUES(%s, %s, %s, %s)'
-       cursor.execute(sql, [datetime.datetime.today(), user_id, chat_id, username])
+       sql = 'INSERT INTO players(registration_date, user_id, chat_id, username, HP, balls, pozioni) VALUES(%s, %s, %s, %s, %s, %s, %s)'
+       cursor.execute(sql, [datetime.datetime.today(), user_id, chat_id, username, 100, 0, 0])
        db.commit()
        bot.sendMessage(chat_id, "Ti sei registrato")
 
