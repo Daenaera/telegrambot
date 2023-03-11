@@ -17,7 +17,6 @@ def on_chat_message(msg):
     chat_id = msg['chat']['id']
     tokenized_text = msg['text'].split()
     command = tokenized_text[0]
-    user_id = msg['chat']['id']
     username = msg['chat']['username']
 
     if command == '/dado':
@@ -33,27 +32,27 @@ def on_chat_message(msg):
         if username == "":
             bot.sendMessage(chat_id, "per iniziare inserisci un username")
         else:
-            register(bot, chat_id, user_id, username)
+            register(bot, chat_id, username)
     
     if command == '/raccogli':
-        register(bot, chat_id, user_id, username)
-        on_button_press(bot, chat_id, user_id,)
+        register(bot, chat_id, username)
+        on_button_press(bot, chat_id)
     
     if command == '/stats':
-        register(bot, chat_id, user_id, username)
-        stats(bot, chat_id, user_id)
+        register(bot, chat_id, username)
+        stats(bot, chat_id)
 
     if command == '/tira':
-        register(bot, chat_id, user_id, username)
+        register(bot, chat_id, username)
         if len(tokenized_text) > 1:
             avversario = tokenized_text[1] 
-            avs(bot, chat_id, user_id, avversario, username)
+            avs(bot, chat_id, avversario, username)
         else:
             bot.sendMessage(chat_id, "a chi vuoi tirare la palla di neve?")
     
     if command == '/usa':
-        register(bot, chat_id, user_id, username)
-        usa(bot, chat_id, user_id)
+        register(bot, chat_id, username)
+        usa(bot, chat_id)
 
 
 bot = telepot.Bot(config.TOKEN)

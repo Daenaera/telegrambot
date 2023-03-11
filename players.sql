@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 10, 2023 alle 11:52
+-- Creato il: Mar 11, 2023 alle 17:09
 -- Versione del server: 10.4.27-MariaDB
--- Versione PHP: 8.0.25
+-- Versione PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,11 +29,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `players` (
   `id` int(11) NOT NULL,
-  `registration_date` datetime NOT NULL,
+  `registration_date` date NOT NULL,
   `chat_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
-  `HP` int(3) NOT NULL DEFAULT 100,
+  `HP` int(11) NOT NULL,
   `balls` int(11) NOT NULL,
   `pozioni` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -56,7 +55,7 @@ ALTER TABLE `players`
 -- AUTO_INCREMENT per la tabella `players`
 --
 ALTER TABLE `players`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
