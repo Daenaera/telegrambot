@@ -58,7 +58,6 @@ last_pressed_time = None
 def on_button_press(bot, chat_id):
     global last_pressed_time
 
-    # ottenere il tempo corrente
     current_time = datetime.datetime.now()
 
     # controllare se il tasto può essere premuto o meno
