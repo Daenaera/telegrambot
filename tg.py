@@ -37,7 +37,7 @@ def on_chat_message(msg):
     
     if command == '/raccogli':
         register(bot, chat_id, user_id, username)
-        on_button_press(bot, chat_id, user_id,)
+        on_button_press(bot, chat_id, user_id)
     
     if command == '/stats':
         register(bot, chat_id, user_id, username)
