@@ -1,5 +1,4 @@
 import mysql.connector
-import pymysql
 import config
 import datetime
 import random
@@ -10,27 +9,24 @@ SQL_USER = config.SQL_USER
 SQL_PASSWORD = config.SQL_PASSWORD
 SQL_DATABASE = config.SQL_DATABASE
 
-
-connessione = mysql.connector.connect(
-# Parametri per la connessione
-  host=SQL_HOST,
-  user=SQL_USER,
-  password=SQL_PASSWORD,
-  db=SQL_DATABASE
-)
-
+def db_connection(func):
+    def wrapper(*args, **kwargs):
+        conn = mysql.connector.connect(host=SQL_HOST, user=SQL_USER, password=SQL_PASSWORD, db=SQL_DATABASE)
 # Stampa dell'handle di connessione
-
 # Generazione del cursore
-cursor = connessione.cursor()
+        cursor = conn.cursor()
 # Comando SQL per la visualizzazione dei database
-#cursore.execute("SHOW DATABASES")
-cursor.execute("SHOW COLUMNS FROM players FROM tg_db")
-# Visualizzazione dei database
+        try:
+            result = func(cursor, *args, **kwargs)
+            conn.commit()
+            return result
+        finally:
+            cursor.close()
+            conn.close()
+    return wrapper
+  
 
-db = pymysql.connect(host=SQL_HOST, port=SQL_PORT, user=SQL_USER, passwd=SQL_PASSWORD, db=SQL_DATABASE)
-cursor = db.cursor()
-
+@db_connection
 def register(bot, chat_id, username):
     
     sql = 'SELECT * FROM players WHERE chat_id = %s'
@@ -80,7 +76,7 @@ def random(bot, chat_id):
       palla(bot, chat_id)
 
 
-
+@db_connection
 def pozioni(bot, chat_id):
    
    sql = 'SELECT pozioni FROM players WHERE chat_id = %s'
@@ -97,7 +93,7 @@ def pozioni(bot, chat_id):
 
 
 
-
+@db_connection
 def palla(bot, chat_id):
 
    sql = 'SELECT balls FROM players WHERE chat_id = %s'
@@ -113,6 +109,7 @@ def palla(bot, chat_id):
    bot.sendMessage(chat_id, "Hai raccolto una palla di neve!")
 
 
+@db_connection
 def usa(bot, chat_id):
    sql = 'SELECT pozioni FROM players WHERE chat_id = %s'
     
@@ -143,7 +140,7 @@ def usa(bot, chat_id):
    
 
 
-
+@db_connection
 def stats(bot, chat_id):
 
    sql = 'SELECT * FROM players WHERE chat_id = %s'
@@ -155,7 +152,7 @@ def stats(bot, chat_id):
 
 
       
-
+@db_connection
 def pg(bot, chat_id, avversario, username):
 
    pv = 'SELECT HP FROM players WHERE chat_id = %s'
@@ -179,7 +176,7 @@ def pg(bot, chat_id, avversario, username):
 
 
 
-      
+@db_connection      
 def avs(bot, chat_id, avversario, username):
 
    avv = 'SELECT * FROM players WHERE username = %s'
@@ -187,7 +184,7 @@ def avs(bot, chat_id, avversario, username):
    myresult = cursor.fetchone()
     
    if myresult is not None:
-      pv = 'SELECT HP FROM players WHERE username = %s'
+      pv = 'SELECT HP FROM players WH:ERE username = %s'
       cursor.execute(pv, [avversario])
       myresult = cursor.fetchone()
       HP = myresult[0]
@@ -201,7 +198,7 @@ def avs(bot, chat_id, avversario, username):
       bot.sendMessage(chat_id, "avversario non trovato")
 
 
-
+@db_connection
 def tira(bot, chat_id, avversario):
 
    ball = 'SELECT balls FROM players WHERE chat_id = %s'
@@ -215,7 +212,7 @@ def tira(bot, chat_id, avversario):
    bot.sendMessage(chat_id, "Hai tirato una palla di neve a %s" % avversario)
 
 
-
+@db_connection
 def ricevi(bot, avversario, username):
 
    pv = 'SELECT HP FROM players WHERE username = %s'
@@ -232,3 +229,18 @@ def ricevi(bot, avversario, username):
    avv_chat_id = myresult[0]
    db.commit()
    bot.sendMessage(avv_chat_id, "%s ti ha tirato una palla di neve\nhai perso 10 HP!" % username)
+
+
+@db_connection
+def lista(cursor, bot, chat_id):
+    sql = 'SELECT username FROM players'
+    cursor.execute(sql)
+    results = cursor.fetchall()
+
+    if results:
+        usernames = [result[0] for result in results]
+        message = "Giocatori: \n- " + "\n- ".join(usernames)
+    else:
+        message = "Nessun giocatore trovato nella lista."
+
+    bot.sendMessage(chat_id, message)
