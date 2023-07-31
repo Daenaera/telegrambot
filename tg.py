@@ -4,11 +4,7 @@ import time
 from pprint import pprint
 import config
 import telepot
-from sql_connection import register
-from sql_connection import on_button_press
-from sql_connection import stats
-from sql_connection import avs
-from sql_connection import usa
+from sql_connection import register, on_button_press, stats, avs, usa, lista
 from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup
 
 
